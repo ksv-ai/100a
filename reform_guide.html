@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Points Governance Reform - Nepal Government 2082</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Mukta:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gov-blue: #003893;
+            --gov-red: #CD1C26;
+            --bg-white: #ffffff;
+            --bg-light: #f4f7f9;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border-light: #e2e8f0;
+            --gold-accent: #fbbf24;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+
+        body {
+            font-family: 'Inter', 'Mukta', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* --- Official Gov Header --- */
+        .top-status-bar {
+            background: var(--gov-blue);
+            color: white;
+            padding: 8px 5%;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-header {
+            background: white;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--gov-red);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .emblem { height: 80px; }
+        .dept-title { border-left: 2px solid #ccc; padding-left: 20px; }
+        .dept-title h2 { font-size: 1.2rem; color: var(--gov-red); font-weight: 700; }
+        .dept-title h1 { font-size: 1.6rem; color: var(--gov-blue); font-weight: 800; }
+
+        .header-right {
+            text-align: right;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .nepal-flag { height: 60px; }
+
+        /* --- Notice Marquee --- */
+        .marquee-wrapper {
+            background: #fff;
+            border-bottom: 1px solid var(--border-light);
+            padding: 10px 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        .marquee-label {
+            background: var(--gov-red);
+            color: white;
+            padding: 5px 20px;
+            font-weight: 700;
+            z-index: 10;
+            white-space: nowrap;
+        }
+        .marquee-text {
+            white-space: nowrap;
+            display: inline-block;
+            animation: marquee 30s linear infinite;
+            padding-left: 50px;
+            color: var(--gov-blue);
+            font-weight: 600;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .controls {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+            border: 1px solid var(--border-light);
+        }
+
+        #search-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid var(--border-light);
+            border-radius: 6px;
+            font-size: 1.1rem;
+            outline: none;
+        }
+        #search-input:focus { border-color: var(--gov-blue); }
+
+        .filter-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .filter-tag {
+            padding: 8px 16px;
+            background: #f1f5f9;
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .filter-tag.active {
+            background: var(--gov-blue);
+            color: white;
+            border-color: var(--gov-blue);
+        }
+
+        .points-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .point-card {
+            background: white;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 25px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            cursor: pointer;
+        }
+        .point-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            border-color: var(--gov-blue);
+        }
+        .point-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gov-blue);
+            border-radius: 8px 8px 0 0;
+        }
+
+        .point-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #f1f5f9;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+
+        .category-badge {
+            font-size: 0.75rem;
+            color: var(--gov-red);
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+        .timeline-badge {
+            background: #ffedd5;
+            color: #9a3412;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+        .timeline-urgent { background: #fee2e2; color: #991b1b; }
+
+        .point-content h3 { font-size: 1.15rem; color: var(--gov-blue); margin-bottom: 8px; line-height: 1.3; }
+        .point-content p { color: var(--text-muted); font-size: 0.95rem; line-clamp: 3; -webkit-line-clamp: 3; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
+
+        /* --- Footer --- */
+        footer {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 60px 5% 20px 5%;
+            margin-top: 80px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        .footer-col h4 { border-bottom: 2px solid var(--gov-red); padding-bottom: 10px; margin-bottom: 20px; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: #cbd5e1; text-decoration: none; font-size: 0.9rem; }
+        .footer-links a:hover { color: white; text-decoration: underline; }
+        .footer-bottom { border-top: 1px solid #334155; margin-top: 40px; padding-top: 20px; text-align: center; font-size: 0.85rem; color: #94a3b8; }
+
+        /* --- Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-content {
+            background: white; width: 100%; max-width: 800px; max-height: 90vh;
+            border-radius: 8px; padding: 40px; overflow-y: auto; position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+        }
+        .close-modal { position: absolute; top: 20px; right: 20px; background: #f1f5f9; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; }
+
+        .detail-label { color: var(--gov-red); font-size: 0.8rem; font-weight: 800; text-transform: uppercase; display: block; margin-bottom: 10px; }
+        .detail-text { font-size: 1.1rem; line-height: 1.8; color: var(--text-dark); margin-bottom: 25px; }
+
+        @media (max-width: 768px) {
+            .main-header { flex-direction: column; text-align: center; gap: 20px; }
+            .header-left { flex-direction: column; }
+            .dept-title { border: none; padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-status-bar">
+        <span>नेपाल सरकार (Government of Nepal)</span>
+        <span id="current-date"></span>
+    </div>
+
+    <header class="main-header">
+        <div class="header-left">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Emblem_of_Nepal.svg" alt="Nepal Emblem" class="emblem">
+            <div class="dept-title">
+                <h2>नेपाल सरकार (Government of Nepal)</h2>
+                <h1>शासकीय सुधार कार्यान्वयन एकाइ</h1>
+                <p style="color: #64748b; font-weight: 600;">Governance Reform Implementation Unit</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Nepal_National_Flag_Animated.gif" alt="Nepal Flag" class="nepal-flag">
+        </div>
+    </header>
+
+    <div class="marquee-wrapper">
+        <div class="marquee-label">ताजा सुधारहरू (Latest Updates)</div>
+        <div class="marquee-text">
+            सूचना: १०० बुँदे शासकीय सुधार योजना कार्यान्वयनमा आएको छ । • NID Integration mandatory for Passports starting Baisakh 2082 • Digital Signatures to be launched soon in all ministries • Ministry reduction to 17 underway...
+        </div>
+    </div>
+
+<div class="container">
+    <div class="controls">
+        <h2 style="color: var(--gov-blue); margin-bottom: 20px;">सुधार कार्यसूची खोज्नुहोस् (Search Reform List)</h2>
+        <div class="search-wrapper">
+            <input type="text" id="search-input" placeholder="Search points by keyword, number, or category...">
+        </div>
+        <div class="filter-tags" id="filter-tags">
+            <button class="filter-tag active" data-category="all">All Points</button>
+            <button class="filter-tag" data-category="shared">Shared Commitment</button>
+            <button class="filter-tag" data-category="admin">Admin Reform</button>
+            <button class="filter-tag" data-category="service">Service Delivery</button>
+            <button class="filter-tag" data-category="digital">Digital & IT</button>
+            <button class="filter-tag" data-category="goodgov">Good Gov</button>
+            <button class="filter-tag" data-category="procure">Projects</button>
+            <button class="filter-tag" data-category="private">Private Sector</button>
+            <button class="filter-tag" data-category="energy">Energy & Water</button>
+            <button class="filter-tag" data-category="health">Health & Edu</button>
+            <button class="filter-tag" data-category="agri">Agri & Land</button>
+            <button class="filter-tag" data-category="social">Social Security</button>
+        </div>
+    </div>
+    <div class="points-grid" id="points-grid"></div>
+</div>
+
+<div class="modal-overlay" id="modal-overlay">
+    <div class="modal-content">
+        <button class="close-modal" id="close-modal">✕</button>
+        <div id="modal-body"></div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-grid">
+        <div class="footer-col">
+            <h4>हाम्रो बारेमा (About Us)</h4>
+            <p style="font-size: 0.9rem; color: #cbd5e1;">Governance Reform Implementation Unit works under the Office of the Prime Minister to ensure efficient service delivery and systemic overhaul across Nepal.</p>
+        </div>
+        <div class="footer-col">
+            <h4>सम्बन्धित लिङ्कहरू (Important Links)</h4>
+            <ul class="footer-links">
+                <li><a href="https://nepal.gov.np" target="_blank">नेपाल सरकारको आधिकारिक पोर्टल (Government Portal)</a></li>
+                <li><a href="https://opmcm.gov.np" target="_blank">प्रधानमन्त्री तथा मन्त्रिपरिषद्को कार्यालय (OPMCM)</a></li>
+                <li><a href="https://ird.gov.np" target="_blank">आन्तरिक राजस्व विभाग (IRD)</a></li>
+                <li><a href="https://mof.gov.np" target="_blank">अर्थ मन्त्रालय (Ministry of Finance)</a></li>
+                <li><a href="https://moha.gov.np" target="_blank">गृह मन्त्रालय (Ministry of Home Affairs)</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>अन्य निकायहरू (Other Bodies)</h4>
+            <ul class="footer-links">
+                <li><a href="https://ciaa.gov.np" target="_blank">अख्तियार दुरुपयोग अनुसन्धान आयोग (CIAA)</a></li>
+                <li><a href="https://psc.gov.np" target="_blank">लोक सेवा आयोग (PSC)</a></li>
+                <li><a href="https://nrb.org.np" target="_blank">नेपाल राष्ट्र बैंक (Nepal Rastra Bank)</a></li>
+                <li><a href="https://nepalpolice.gov.np" target="_blank">नेपाल प्रहरी (Nepal Police)</a></li>
+                <li><a href="https://hellosarkar.gov.np" target="_blank">हेलो सरकार (Hello Sarkar)</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        &copy; 2082 शासकीय सुधार कार्यान्वयन एकाइ | Governance Reform Implementation Unit. All Rights Reserved.
+    </div>
+</footer>
+
+<script>
+    // Date Display
+    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', calendar: 'nepali' };
+    document.getElementById('current-date').innerText = new Date().toLocaleDateString('ne-NP', dateOptions);
+    const pointsData = [
+        // SCRIPT GENERATED CONTENT - 100 POINTS DATA OBJECT
+        { id: 1, category: "shared", timeline: "Imm.", titleEn: "Election Gratitude", titleNp: "निर्वाचन आभार", descNp: "फागुन २१ को निर्वाचन सफल बनाउन योगदान पुऱ्याउने सबैप्रति आभार प्रकट गर्ने।", explanationNp: "यसले नयाँ परिवर्तनका लागि जनताले दिएको ठूलो विश्वास र सहकार्यको सम्मान गर्दछ।", visualInfo: "🤝 Political Foundation of Reform." },
+        { id: 2, category: "shared", timeline: "7 Days", titleEn: "Delivery-Based Governance", titleNp: "नतिजामा आधारित शासन", descNp: "मन्त्रालयहरूले ७ दिनभित्र प्रमुख १० कार्य र सूचकसहितको कार्ययोजना पेश गर्ने।", explanationNp: "अब काम मात्र होइन, कति छिटो र प्रभावकारी भयो भनेर मन्त्रीहरूको मूल्याङ्कन हुनेछ।", visualInfo: "📊 Accountability Scorecard." },
+        { id: 3, category: "shared", timeline: "Imm.", titleEn: "National Commitment", titleNp: "राष्ट्रिय प्रतिबद्धता", descNp: "सबै दलका घोषणापत्रलाई मिलाएर एउटै 'राष्ट्रिय प्रतिबद्धता' बनाउने।", explanationNp: "सबै राम्रा कुराहरू एउटै योजनामा समेटिनेछन्, जसले देश विकासमा एकता ल्याउनेछ।", visualInfo: "📂 Unified Roadmap." },
+        { id: 4, category: "shared", timeline: "7 Days", titleEn: "Constitutional Amendment Paper", titleNp: "संविधान संशोधन बहस पत्र", descNp: "दीर्घकालीन राजनीतिक सुधारका लागि ७ दिनभित्र कार्यदल गठन गरी बहस पत्र तयार गर्ने।", explanationNp: "जनताको चाहना अनुसार संविधानलाई अझै बलियो र आधुनिक बनाउन छलफल सुरु हुनेछ।", visualInfo: "⚖️ Legal Evolution." },
+        { id: 5, category: "shared", timeline: "15 Days", titleEn: "Social Reconciliation", titleNp: "ऐतिहासिक मेलमिलाप", descNp: "दलित र बहिष्कृत समुदायमाथि भएका अन्यायको ऐतिहासिक मेलमिलाप र क्षमायाचना गर्ने।", explanationNp: "सबै नेपालीलाई बराबर सम्मान र अवसर दिने एउटा ठूलो सामाजिक अभियानको सुरुवात।", visualInfo: "✊ Justice & Inclusivity." },
+        { id: 6, category: "shared", timeline: "100 Days", titleEn: "Gen-Z Movement Relief", titleNp: "जेन-जी आन्दोलन प्याकेज", descNp: "जेन-जी आन्दोलनका शहीद परिवार र घाइतेलाई १०० दिनभित्र रोजगारी र पुनर्स्थापना प्याकेज दिने।", explanationNp: "परिवर्तनका लागि ज्यान दिने र लड्ने युवाहरूको बलिदानको कदर र सम्मान।", visualInfo: "🎓 Honoring Heroism." },
+        { id: 7, category: "shared", timeline: "7 Days", titleEn: "Fact-Finding Committee", titleNp: "छानबिन समिति", descNp: "भाद्र २४ को घटना छानबिन गर्न एक हप्ताभित्र उच्चस्तरीय छानबिन समिति गठन गर्ने।", explanationNp: "तथ्य बाहिर ल्याउने र दोषीलाई समातेर कानुनी कारबाही गर्ने प्रतिबद्धता।", visualInfo: "🔍 Transparency Quest." },
+        { id: 8, category: "shared", timeline: "30 Days", titleEn: "Commission Report Action", titleNp: "आयोग प्रतिवेदन कार्यान्वयन", descNp: "विभिन्न आयोगका पुराना प्रतिवेदनका सिफारिसहरू ३० दिनभित्र कार्यान्वयनमा लैजाने।", explanationNp: "अब कुनै पनि विशेषज्ञका रिपोर्टहरू दराजमा थन्किने छैनन्, सिधै काममा प्रयोग हुनेछन्।", visualInfo: "📜 Action on Experts Advice." },
+        { id: 9, category: "admin", timeline: "30 Days", titleEn: "Ministry Reduction to 17", titleNp: "मन्त्रालय कटौती", descNp: "३० दिनभित्र सङ्घीय मन्त्रालयको सङ्ख्या १७ कायम गर्ने।", explanationNp: "अनावश्यक मन्त्रालय हटाएर देशको फजुल खर्च घटाइनेछ र विकासमा पैसा लगाइनेछ।", visualInfo: "📉 Leaner Government." },
+        { id: 10, category: "admin", timeline: "30 Days", titleEn: "BPR for 3-Level Approval", titleNp: "तीन तहको निर्णय प्रक्रिया", descNp: "निर्णय प्रक्रियामा रहेका धेरै तहलाई घटाएर बढीमा ३ तहमा सीमित गर्ने।", explanationNp: "एउटै काममा धेरै हाकिमको हस्ताक्षर चाहिने झन्झट अब हटेर काम छिटो हुनेछ।", visualInfo: "⚡ Speed Over Bureaucracy." },
+        { id: 11, category: "admin", timeline: "1 Month", titleEn: "Merging Redundant Boards", titleNp: "बोर्ड र समिति खारेजी", descNp: "अनुत्पादक र दोहोरो काम गर्ने बोर्ड र समितिहरूलाई हटाउने वा मिलाउने।", explanationNp: "काम नगर्ने र सित्तैमा पैसा खाने सरकारी अड्डा र बोर्डहरू बन्द गरिनेछ।", visualInfo: "✂️ Cutting the Redundancy." },
+        { id: 12, category: "admin", timeline: "45 Days", titleEn: "No Politics in Service", titleNp: "सेवामा राजनीति निषेध", descNp: "कर्मचारी, शिक्षक र प्राध्यापकले कुनै पनि दलको झण्डा बोक्न नपाउने।", explanationNp: "सरकारी कार्यालयमा हुने दलीय ट्रेड युनियनको चलखेल सदाका लागि अन्त्य हुनेछ।", visualInfo: "🚫 Neutral Administration." },
+        { id: 13, category: "admin", timeline: "Imm.", titleEn: "Ethical Conduct", titleNp: "कर्मचारी आचारसंहिता", descNp: "कर्मचारीतन्त्रलाई उत्तरदायी र सेवामुखी बनाउन कडाइका साथ आचारसंहिता लागू गर्ने।", explanationNp: "जनताको सेवा गर्ने कर्मचारीले इमानदार र अनुशासित भएर काम गर्नैपर्छ।", visualInfo: "⚖️ Professional Integrity." },
+        { id: 14, category: "admin", timeline: "15 Days", titleEn: "O&M Standards", titleNp: "सङ्गठन सर्वेक्षण मापदण्ड", descNp: "सरकारी कार्यालयको सङ्गठन तथा व्यवस्थापनको राष्ट्रिय मापदण्ड १५ दिनमा बनाउने।", explanationNp: "कुन अफिसमा कति मान्छे चाहिन्छ भन्ने कुराको वैज्ञानिक हिसाब निकालिनेछ।", visualInfo: "📏 Blueprinting Staff." },
+        { id: 15, category: "admin", timeline: "Next FY", titleEn: "Provincial Teacher Pay", titleNp: "शिक्षक सुविधा प्रदेशबाट", descNp: "शिक्षकको पेन्सन र सेवा सुविधाको काम अब आफ्नै प्रदेशबाट हुने।", explanationNp: "सेवानिवृत्त शिक्षकले काठमाडौँ धाइरहनु पर्ने सास्तीको अन्त्य।", visualInfo: "📍 Decentralized Care." },
+        { id: 16, category: "admin", timeline: "90 Days", titleEn: "KPI Performance Review", titleNp: "कार्यसम्पादनमा आधारित तलब", descNp: "कामको नतिजा हेरेर मात्र कर्मचारीको मूल्याङ्कन र पुरस्कार दिने।", explanationNp: "अब काम गर्ने र नगर्नेलाई समान व्यवहार गरिने छैन; मिहिनेतीले पुरस्कार पाउनेछन्।", visualInfo: "📈 Merit-Based Review." },
+        { id: 17, category: "admin", timeline: "45 Days", titleEn: "Service Audit", titleNp: "सेवाको गुणस्तर प्रमाणीकरण", descNp: "स्थानीय तहबाट प्रवाह हुने सेवाको गुणस्तर जाँच गर्ने मापदण्ड बनाउने।", explanationNp: "सरकारी कार्यालयहरूले कति राम्रो सेवा दिए भनेर उनीहरूलाई 'रेटिङ' दिइनेछ।", visualInfo: "⭐ Citizen Satisfaction Focus." },
+        { id: 18, category: "admin", timeline: "100 Days", titleEn: "Modern Office Layout", titleNp: "आधुनिक कार्यालय डिजाइन", descNp: "सबै सरकारी कार्यालयलाई व्यवस्थित र आधुनिक देखाउन नयाँ मापदण्ड लागू गर्ने।", explanationNp: "फोहोर र अस्तव्यस्त सरकारी कार्यालयहरू अब सफा र सेवाग्राहीमैत्री हुनेछन्।", visualInfo: "🏢 Workspace Makeover." },
+        { id: 19, category: "admin", timeline: "3 Months", titleEn: "Automated Transfers (PMIS)", titleNp: "स्वचालित सरुवा-बढुवा", descNp: "कर्मचारीको सरुवा र बढुवा अब कम्प्युटरले नै योग्यता अनुसार गर्नेछ।", explanationNp: "भनसुन गरेर राम्रो ठाउँमा सरुवा हुने जमाना अब सकियो।", visualInfo: "💻 Algorithm-Led HR." },
+        { id: 20, category: "service", timeline: "Imm.", titleEn: "12-Hour Services", titleNp: "१२ घण्टे सेवा केन्द्र", descNp: "ठूला शहरमा नागरिक सेवा केन्द्र बिहान ७ देखि बेलुका ७ सम्म खुल्नेछन्।", explanationNp: "अफिसमा काम गर्नेहरूले आफ्नो काम सकिएपछि पनि सरकारी सेवा लिन पाउनेछन्।", visualInfo: "⏰ Working for You." },
+        { id: 21, category: "service", timeline: "Imm.", titleEn: "Digital Identity Integration", titleNp: "डिजिटल परिचयपत्र", descNp: "राहदानी, लाइसेन्स र नागरिकतालाई डिजिटल प्रणालीमार्फत जोड्ने।", explanationNp: "एउटै कार्डले सबै काम हुनेछ, बारम्बार एउटै विवरण भरिरहनु पर्दैन।", visualInfo: "🆔 Universal ID Card." },
+        { id: 22, category: "service", timeline: "15 Days", titleEn: "Multi-Skilled Staff", titleNp: "धेरै सीप भएका कर्मचारी", descNp: "काउन्टरमा बस्ने कर्मचारीलाई सबै काम गर्न सक्ने बनाउन तालिम दिने।", explanationNp: "तपाईंलाई एउटा झ्यालबाट अर्कोमा पठाउने झन्झट अब कम हुनेछ।", visualInfo: "🎓 Versatile Desk Help." },
+        { id: 23, category: "service", timeline: "1 Month", titleEn: "Time & Motion Study", titleNp: "समय र गति अध्ययन", descNp: "कुन सेवा दिन कति मिनेट लाग्छ भनेर जाँच गरी काम छिटो गराउने।", explanationNp: "काम ढिलो हुने ठाउँ पत्ता लगाएर प्रक्रियालाई छिटो बनाइनेछ।", visualInfo: "⏱️ Workflow Science." },
+        { id: 24, category: "service", timeline: "24/7", titleEn: "National Grievance System", titleNp: "२४ घण्टे गुनासो सुन्ने", descNp: "कुनै पनि बेला फोन वा एपबाट सरकारी गुनासो टिपाउन सकिने।", explanationNp: "तपाईंको समस्या सुन्न अब सरकार सधैँ तयार रहनेछ।", visualInfo: "📞 Always Listening." },
+        { id: 25, category: "service", timeline: "Live", titleEn: "Hello Sarkar Dashboard", titleNp: "हेलो सरकार ड्यासबोर्ड", descNp: "गुनासो कति र कसरी समाधान भयो भनेर अनलाइनबाटै हेर्न मिल्ने।", explanationNp: "तपाईंको उजुरीमा के काम भयो, कति समयमा सकियो, सबै पारदर्शी हुनेछ।", visualInfo: "📱 Transparent Status." },
+        { id: 26, category: "service", timeline: "Predictable", titleEn: "Faceless Results", titleNp: "मुहारविहीन नतिजा", descNp: "राहदानी र लाइसेन्स लिन बिचौलिया चाहिने दिनको अन्त्य गर्ने।", explanationNp: "अब कसैको मुख ताकी रहनु पर्दैन, अनलाइनबाटै तोकिएको समयमा सेवा पाइन्छ।", visualInfo: "🤖 Direct Digital Link." },
+        { id: 27, category: "service", timeline: "100 Days", titleEn: "Home-Delivery of IDs", titleNp: "घरैमा सरकारी कागजात", descNp: "राहदानी र लाइसेन्स जस्ता कागजात हुलाकमार्फत घरमै पुऱ्याउने।", explanationNp: "तपाईं अफिस धाउनु पर्दैन, सरकारी कागजात हुलाकीले घरमै ल्याइदिनेछन्।", visualInfo: "📦 Doorstep Governance." },
+        { id: 28, category: "digital", timeline: "100 Days", titleEn: "Paperless Governance (GIOMS)", titleNp: "कागजरहित कार्यालय", descNp: "सबै सरकारी निकायमा फाइलहरू अनलाइनबाटै पठाउने र हेर्ने व्यवस्था।", explanationNp: "धुलो जमेका फाइलहरू अब कम्प्युटरमा हुनेछन्, हराउने डर सधैँका लागि हट्यो।", visualInfo: "📄 Pure Digital Files." },
+        { id: 29, category: "digital", timeline: "60 Days", titleEn: "Auto-Fill Citizen Data", titleNp: "स्वचालित विवरण", descNp: "एक पटक विवरण दिएपछि अर्को कार्यालयले फेरि सोध्न नपाउने।", explanationNp: "तपाईंको एउटै ठेगाना हरेक अफिसमा बारम्बार लेखिरहनु पर्ने झन्झट अन्त्य।", visualInfo: "🔁 Repeat Data: Zero." },
+        { id: 30, category: "digital", timeline: "100 Days", titleEn: "Simplified Apps for All", titleNp: "सबैका लागि सजिलो एप", descNp: "अपाङ्गता भएका र कम पढेकाले पनि चलाउन सक्ने गरी एप बनाउने।", explanationNp: "प्रविधि अब सबैको पहुँचमा हुनेछ, कसैलाई पनि गाह्रो हुने छैन।", visualInfo: "♿ Inclusive Tech Design." },
+        { id: 31, category: "digital", timeline: "45 Days", titleEn: "App-Based Applications", titleNp: "एपबाटै सबै आवेदन", descNp: "प्रहरी रिपोर्ट, पासपोर्ट र लाइसेन्सको फर्म मोबाइलबाटै भर्न मिल्ने।", explanationNp: "फर्म भर्न साइबर धाइरहनु पर्दैन, आफ्नै मोबाइलबाटै सबै काम हुनेछ।", visualInfo: "📲 Mobile-First Services." },
+        { id: 32, category: "digital", timeline: "3 Months", titleEn: "Online Appointment Booking", titleNp: "अनलाइन भेटघाट बुकिङ", descNp: "सरकारी अफिस जानुअघि अनलाइनबाटै आफ्नो पालो बुक गर्ने।", explanationNp: "लाइन बस्ने सास्ती सकियो, आफ्नो समयमा मात्रै अफिस गए पुग्छ।", visualInfo: "🕒 Zero Wait Policy." },
+        { id: 33, category: "digital", timeline: "1 Month", titleEn: "E-Signature by NID", titleNp: "डिजिटल हस्ताक्षर", descNp: "लाइसेन्स वा परिचयपत्र प्रयोग गरी अनलाइनमै हस्ताक्षर गर्ने।", explanationNp: "अब अनलाइन कागजातहरू प्रमाणित गर्न अफिस धाइरहनु पर्दैन।", visualInfo: "✍️ Validated Digital Trust." },
+        { id: 34, category: "digital", timeline: "30 Days", titleEn: "File Tracking Alerts", titleNp: "फाइल अलर्ट सिस्टम", descNp: "कर्मचारीले फाइल अड्काएमा माथिल्लो हाकिमलाई तुरुन्तै म्यासेज जाने।", explanationNp: "कुनै कर्मचारीले जानाजानी फाइल रोकेमा उसलाई तुरुन्तै निगरानी गरिनेछ।", visualInfo: "🔔 Accountability Pings." },
+        { id: 35, category: "digital", timeline: "15 Days", titleEn: "Instant Certificate Download", titleNp: "प्रमाणपत्र तत्काल डाउनलोड", descNp: "आफ्नो व्यक्तिगत कागजात मोबाइल एप वा इमेलमा तुरुन्तै पाउने।", explanationNp: "जन्मदर्ता वा अन्य कागजातको फोटोकपी खोजिरहनु परेन, साथमै हुनेछ।", visualInfo: "📥 Documents on Go." },
+        { id: 36, category: "digital", timeline: "100 Days", titleEn: "National Data Exchange", titleNp: "राष्ट्रिय डाटा साटासाट", descNp: "सबै सरकारी निकायका डाटालाई एकै ठाउँबाट जोड्ने।", explanationNp: "एउटा कार्यालयले काम गर्दा अर्कोले विवरण नपाउने समस्याको अन्त्य।", visualInfo: "🌐 Connected State." },
+        { id: 37, category: "digital", timeline: "60 Days", titleEn: "Cyber Security & Privacy Law", titleNp: "डाटा सुरक्षा कानुन", descNp: "तपाईंको व्यक्तिगत विवरण सुरक्षित राख्न कडा कानुन बनाउने।", explanationNp: "तपाईंको गोपनियताको रक्षा सरकारले गर्नेछ र डाटा चोरी हुन दिइने छैन।", visualInfo: "🔒 Privacy First." },
+        { id: 38, category: "digital", timeline: "60 Days", titleEn: "Independent IT Regulator", titleNp: "आईटी नियामक निकाय", descNp: "आईटी क्षेत्रमा हुने बदमासी रोक्न स्वतन्त्र नियामक निकाय बनाउने।", explanationNp: "कल सेन्टर वा सट्टेबाजी जस्ता कामलाई नियमन गर्न कडा निगरानी हुनेछ।", visualInfo: "⚖️ Digital Watchdog." },
+        { id: 39, category: "digital", timeline: "3 Months", titleEn: "National IT Office", titleNp: "राष्ट्रिय सूचना प्रविधि कार्यालय", descNp: "सूचना प्रविधिका सबै काम एउटै कार्यालयले हेर्ने गरी मिलाउने।", explanationNp: "छरिएर रहेका आईटी विभागहरूलाई एकै ठाउँ ल्याएर काम छिटो गराइनेछ।", visualInfo: "🖥️ IT Consolidation." },
+        { id: 40, category: "digital", timeline: "60 Days", titleEn: "Digital Nepal Bill", titleNp: "डिजिटल शासन विधेयक", descNp: "डिजिटल शासनलाई कानुनी बनाउन नयाँ विधेयक जारी गर्ने।", explanationNp: "अब सरकारी काम गर्ने नयाँ तरिका सधैँका लागि कानुनी रूपमा स्थापित हुनेछ।", visualInfo: "📜 New Digital Constitution." },
+        { id: 41, category: "digital", timeline: "60 Days", titleEn: "Enterprise Architecture", titleNp: "राष्ट्रिय सफ्टवेयर संरचना", descNp: "सबै सरकारी एपहरू एउटै शैलीमा बनाउने मापदण्ड तयार गर्ने।", explanationNp: "सबै सरकारी सफ्टवेयरहरू एक-अर्कासँग मिल्ने गरी वैज्ञानिक बनाइनेछन्।", visualInfo: "🏗️ Master Tech Plan." },
+        { id: 42, category: "digital", timeline: "24 Hours", titleEn: "Betting App Shutdown", titleNp: "सट्टेबाजी एप बन्द", descNp: "सबै सट्टेबाजी (Betting) वेबसाइट र एप २४ घण्टाभित्र बन्द गर्ने।", explanationNp: "समाजमा विकृति फैलाउने र पैसा डुबाउने माध्यमहरूलाई तुरुन्तै रोक लगाइनेछ।", visualInfo: "🚫 No Gambling." },
+        { id: 43, category: "goodgov", timeline: "15 Days", titleEn: "Asset Clean-up Since 2048", titleNp: "सम्पत्ति छानबिन", descNp: "वि. सं. २०४८ देखिका ठूला नेता र हाकिमको सम्पत्ति छानबिन गर्ने।", explanationNp: "जतिसुकै ठूलो मान्छे भए पनि जनताको पैसा लुटेको छ भने अब उम्किन पाउने छैन।", visualInfo: "💰 Historic Cleanup." },
+        { id: 44, category: "goodgov", timeline: "30 Days", titleEn: "Vigilance Restructuring", titleNp: "सतर्कता केन्द्रको शक्ति", descNp: "भ्रष्टाचार नियन्त्रण गर्न सतर्कता केन्द्रलाई अझै शक्तिशाली बनाउने।", explanationNp: "लुकेर घुस खानेहरूलाई समात्न 'भ्रष्टाचार विरोधी' प्रहरी अब अझै सक्रिय हुनेछ।", visualInfo: "🛡️ Anti-Graft Armor." },
+        { id: 45, category: "goodgov", timeline: "100 Days", titleEn: "Digital Asset Red Flag", titleNp: "सम्पत्तिमा रातो सङ्केत", descNp: "अस्वाभाविक बैंक कारोबार भएमा सिस्टमले आफैँ 'रातो झन्डा' देखाउने।", explanationNp: "नेता वा हाकिमको खातामा शंकास्पद पैसा छिर्ने बित्तिकै अनुसन्धान सुरु हुनेछ।", visualInfo: "🚩 Auto Audit." },
+        { id: 46, category: "goodgov", timeline: "15 Days", titleEn: "UN Convention Alignment", titleNp: "विश्वव्यापी भ्रष्टाचार विरोधी नियम", descNp: "विश्वभरि सफल भएका भ्रष्टाचार रोक्ने योजना नेपालमा लागू गर्ने।", explanationNp: "हामी संसारकै राम्रा र इमानदार देशहरूको सूचीमा पर्नका लागि मेहनत गर्नेछौँ।", visualInfo: "🌍 Integrity Standards." },
+        { id: 47, category: "goodgov", timeline: "30 Days", titleEn: "Whistleblower Protection", titleNp: "सूचनादाताको सुरक्षा", descNp: "भ्रष्टाचारको पोल खोल्ने मान्छेलाई सुरक्षा र गोप्य राख्ने नीति ल्याउने।", explanationNp: "तपाईंले भ्रष्टाचार विरुद्ध उजुरी गर्दा डराउनु पर्दैन, सरकारले तपाईंको रक्षा गर्नेछ।", visualInfo: "📣 Safety for Truth-Seekers." },
+        { id: 48, category: "procure", timeline: "30 Days", titleEn: "Value-Based Contracts", titleNp: "गुणस्तरीय ठेक्का प्रणाली", descNp: "न्यूनतम मूल्य होइन, उत्कृष्ट काम गर्नेलाई प्राथमिकता दिने ऐन बनाउने।", explanationNp: "अब सस्तोमा ठेक्का लिएर बाटो अलपत्र छाड्ने दिन सकिए; केवल राम्रोले मौका पाउनेछ।", visualInfo: "🏗️ Quality Infrastructure." },
+        { id: 49, category: "procure", timeline: "60 Days", titleEn: "Project Selection Model", titleNp: "आयोजना छनौट मापदण्ड", descNp: "जनतालाई साँच्चै फाइदा हुने काम मात्रै सुरु गर्ने र प्राथमिकता छुट्याउने।", explanationNp: "अब मन्त्रीको जिल्लामा मात्रै होइन, जहाँ चाहिने हो त्यहीँ मात्रै विकास हुनेछ।", visualInfo: "🛤️ Purpose-Led Growth." },
+        { id: 50, category: "procure", timeline: "90 Days", titleEn: "End-to-End Tracking", titleNp: "सुरुदेखि अन्त्यसम्म ट्रयाकिङ", descNp: "ठेक्का लागेदेखि भुक्तानी हुन्जेलको सबै हिसाब अनलाइन हेर्न मिल्ने।", explanationNp: "विकासको बजेट कहाँ खर्च भयो, जनताले मोबाइलबाटै हिसाब हेर्न सक्नेछन्।", visualInfo: "👁️ Budget Transparency." },
+        { id: 51, category: "procure", timeline: "60 Days", titleEn: "Project Umbrella Law", titleNp: "आयोजनाको छाता कानुन", descNp: "बाटो बनाउँदा बिजुली वा खानेपानीले रोक्ने समस्या हटाउन नयाँ कानुन।", explanationNp: "विभिन्न कार्यालयको आपसी झगडाले विकास नरोकिने गरी एउटै कानुन बनाइनेछ।", visualInfo: "🚧 Barrier-Free Construction." },
+        { id: 52, category: "procure", timeline: "45 Days", titleEn: "Highway Weighing Bridges", titleNp: "राजमार्गमा तौल मेशिन", descNp: "धैर्य सकिएका ठूला गाडीलाई रोक्न राजमार्गमा तौल मेशिन राख्ने।", explanationNp: "धेरै भार बोकेर सडक बिगार्ने गाडीलाई जरिवाना गरी सडक जोगाइनेछ।", visualInfo: "⚖️ Safeguarding Roads." },
+        { id: 53, category: "private", timeline: "Imm.", titleEn: "One-Stop Empowerment", titleNp: "एकद्वार सेवा अधिकार", descNp: "उद्योग दर्ता गर्ने अफिसलाई सबै निर्णय गर्ने अधिकार दिने।", explanationNp: "लगानीकर्ता अब एउटा कागजात बनाउन दश वटा अफिस धाउनु पर्ने छैन।", visualInfo: "🏢 Fast Industry Setup." },
+        { id: 54, category: "private", timeline: "90 Days", titleEn: "PPP Strategic Pipeline", titleNp: "साझेदारी आयोजना पाइपलाइन", descNp: "सरकार र निजी क्षेत्रले मिलेर बनाउने आयोजनाहरूको सूची ९० दिनमा तयार गर्ने।", explanationNp: "ठूला विकासका काममा निजी क्षेत्रले पैसा लगानी गर्ने बाटो खुल्नेछ।", visualInfo: "🛤️ Collective Investment." },
+        { id: 55, category: "private", timeline: "1 Month", titleEn: "IBN One-Window Approval", titleNp: "लगानी बोर्डको एकद्वार", descNp: "ठूला लगानीकर्ताले सबै अनुमति एउटै कोठाबाट पाउने व्यवस्था गर्ने।", explanationNp: "विदेशी लगानीकर्तालाई आउने बित्तिकै झन्झट बिना काम सुरु गर्ने वातावरण दिइनेछ।", visualInfo: "🚪 Simple Entry Exit." },
+        { id: 56, category: "private", timeline: "2 Days", titleEn: "Start-up 2-Day Approval", titleNp: "स्टार्टअप २ दिने दर्ता", descNp: "नयाँ पसल वा व्यवसाय अब २ दिनमै दर्ता भएर सुरु गर्न मिल्ने।", explanationNp: "युवाहरूले नयाँ काम सुरु गर्दा सरकारी झन्झटले महिनाौँ कुर्नु पर्ने छैन।", visualInfo: "🚀 Rapid Startups." },
+        { id: 57, category: "private", timeline: "30 Days", titleEn: "Easy Loans for Agri/IT", titleNp: "कृषि र आइटीलाई सस्तो ऋण", descNp: "बैंकहरूले सानो धितोमा पनि कृषि र आइटीलाई ऋण दिन पाउने नियम बनाउने।", explanationNp: "युवा उद्यमी र किसानलाई खेती र व्यापार बढाउन बैंकले सजिलै पैसा दिनेछन्।", visualInfo: "🏦 Capital Support." },
+        { id: 58, category: "private", timeline: "45 Days", titleEn: "One-Door Business App", titleNp: "व्यवसाय दर्ता अनलाइन", descNp: "प्यान, बैंक खाता र दर्ता सबै एउटै एपबाट हुने व्यवस्था ४५ दिनमा गर्ने।", explanationNp: "व्यवसाय सुरु गर्न अब एउटै अनलाइन फारम भरे पुग्छ।", visualInfo: "💻 Single Form Startup." },
+        { id: 59, category: "private", timeline: "60 Days", titleEn: "Employment & Skill Center", titleNp: "सिप र रोजगार केन्द्र", descNp: "हरेक पालिकामा सिप सिकाउने र जागिर खोजिदिने केन्द्र बनाउने।", explanationNp: "तपाईंसँग खुबी छ भने जागिर खोज्न भौतारिनु पर्दैन, केन्द्रले मद्दत गर्नेछ।", visualInfo: "🛠️ Skill Mapping." },
+        { id: 60, category: "private", timeline: "Imm.", titleEn: "Private Sector Protection (PSPP)", titleNp: "व्यवसायीको सुरक्षा", descNp: "निजी व्यवसायीको सम्पत्ति र उनीहरूलाई दुःख दिने काम तत्काल रोक्ने।", explanationNp: "व्यवसायीलाई डर देखाएर पैसा असुल्ने वा दुःख दिनेलाई कडा कारबाही हुनेछ।", visualInfo: "🛡️ Safe Business Eco." },
+        { id: 61, category: "private", timeline: "30 Days", titleEn: "Industrial Security Unit", titleNp: "औद्योगिक सुरक्षा टोली", descNp: "उद्योगहरूमा हुने आक्रमण वा अवरोध रोक्न छुट्टै सुरक्षा टोली बनाउने।", explanationNp: "देशभरका उद्योगहरू ढुक्कसँग सधैँ चलिरहने वातावरणको ग्यारेन्टी।", visualInfo: "🚔 Secure Factory Zone." },
+        { id: 62, category: "private", timeline: "Imm.", titleEn: "No Looting in Protests", titleNp: "आन्दोलनमा लुटपाट निषेध", descNp: "आन्दोलनका नाममा कसैको पसल वा सामान लुट्नेलाई कडा जेल हाल्ने।", explanationNp: "आन्दोलन गर्ने अधिकार छ तर कसैको पसल फुटाउने वा लुट्ने अधिकार छैन।", visualInfo: "⚖️ Zero Vandalism." },
+        { id: 63, category: "private", timeline: "Imm.", titleEn: "Affect Relief Package", titleNp: "आन्दोलन पीडितलाई सहुलियत", descNp: "आन्दोलनले डुबेका साना व्यवसायीलाई ब्याज मिनाहा र राहत दिने।", explanationNp: "मुश्किलमा परेका व्यापारीलाई सरकारले फेरि उभिन मद्दत गर्नेछ।", visualInfo: "💸 Direct Financial Aid." },
+        { id: 64, category: "private", timeline: "Imm.", titleEn: "Performance Tracking Unit", titleNp: "कामको डेलिभरी युनिट", descNp: "प्रधानमन्त्री कार्यालयबाट कामको सिधै अनुगमन गर्ने टोली खटाउने।", explanationNp: "फाइल रोक्ने र काम नगर्ने हाकिमलाई प्रधानमन्त्रीले सिधै कारबाही गर्नेछन्।", visualInfo: "🎯 Result Focus." },
+        { id: 65, category: "private", timeline: "30 Days", titleEn: "Trade Body Consolidation", titleNp: "व्यापार हेर्ने निकाय थोरै", descNp: "लगानी र व्यापार हेर्ने धेरै अफिसलाई मिलाएर थोरै र शक्तिशाली बनाउने।", explanationNp: "सेवाग्राहीले अब एउटै अफिसमा गए पुग्छ, धेरै ठाउँ धाउनु परेन।", visualInfo: "🔗 Simplified Operations." },
+        { id: 66, category: "private", timeline: "45 Days", titleEn: "Free SME Registration", titleNp: "साना उद्योग नि:शुल्क दर्ता", descNp: "२५ करोडसम्मका उद्योग खोल्दा अब सरकारलाई कुनै शुल्क तिर्नु नपर्ने।", explanationNp: "नयाँ काम गर्न चाहनेहरूलाई सरकारले सित्तैमा अनुमति दिनेछ।", visualInfo: "💰 Zero Cost Entrance." },
+        { id: 67, category: "private", timeline: "3 Months", titleEn: "Real-Time Biz Data", titleNp: "व्यापारको ताजा विवरण", descNp: "कति पसल र उद्योग छन् भन्ने कुरा पलपलमा थाहा पाउने प्रणाली।", explanationNp: "देशको आर्थिक अवस्था कस्तो छ भन्ने कुरा सरकारले सधैँ अपडेट राख्नेछ।", visualInfo: "🔄 Live Stats." },
+        { id: 68, category: "private", timeline: "3 Months", titleEn: "CSR Priority Spending", titleNp: "समाजसेवाको पैसा विकासमा", descNp: "कम्पनीहरूले गर्ने समाजसेवाको पैसा अब देशका मुख्य समस्या समाधानमा लगाउने।", explanationNp: "थोरै-थोरै पैसा छरिनु भन्दा एकै ठाउँ जम्मा गरेर ठूलो काम गरिनेछ।", visualInfo: "🤝 Collective Charity." },
+        { id: 69, category: "private", timeline: "Imm.", titleEn: "Sector Safety Strategy", titleNp: "व्यवसाय सुरक्षा नीति", descNp: "उद्योग, पर्यटन र सेवा क्षेत्रका लागि विशेष सुरक्षा योजना ल्याउने।", explanationNp: "सबै किसिमका व्यापारहरू ढुक्कसँग चल्न पाउने ग्यारेन्टी।", visualInfo: "🛡️ Comprehensive Cover." },
+        { id: 70, category: "private", timeline: "Imm.", titleEn: "Logistics Safety", titleNp: "ढुवानीको सुरक्षा", descNp: "राजमार्गमा सामान बोकेका ट्रकहरू कसैले रोक्न नपाउने व्यवस्था गर्ने।", explanationNp: "खानेकुरा र सामानको डेलिभरी कहिल्यै नरोकिने सुनिश्चितता।", visualInfo: "🚛 Always Moving." },
+        { id: 71, category: "private", timeline: "Imm.", titleEn: "Transparent Global Standard", titleNp: "अन्तर्राष्ट्रिय पारदर्शिता", descNp: "मनी लाउन्ड्रिङ रोक्न र लगानी भित्र्याउन विश्वव्यापी नियम पालना गर्ने।", explanationNp: "हाम्रो देशमा अब सफा र इमानदार लगानी मात्र भित्रिनेछ।", visualInfo: "🌍 Safe & Clean Money." },
+        { id: 72, category: "private", timeline: "1 Month", titleEn: "New Tourism Hubs", titleNp: "नयाँ पर्यटकीय ठाउँ", descNp: "रामारोशन र बडिमालिका जस्ता ठाउँमा व्यवस्थित पदमार्ग बनाउने।", explanationNp: "हाम्रा लुकेका सुन्दर ठाउँहरूमा अब धेरै पर्यटक पुग्ने बाटो खुल्नेछ।", visualInfo: "🏔️ Untapped Beauty." },
+        { id: 73, category: "private", timeline: "15 Days", titleEn: "Argya Tourism (Yoga/Zen)", titleNp: "आरोग्य पर्यटन (योग र ध्यान)", descNp: "नेपाललाई संसारकै ध्यान र योगको केन्द्र बनाउन पर्यटन रणनीति ल्याउने।", explanationNp: "संसारभरका मानिस अब शान्तिको खोजीमा नेपाल आउनेछन्।", visualInfo: "🧘 Meditation World Hub." },
+        { id: 74, category: "energy", timeline: "1 Month", titleEn: "Energy Export Strategy", titleNp: "बिजुली निर्यात रणनीति", descNp: "आफ्नो बिजुली विदेश बेचेर डलर कमाउने नयाँ योजना ल्याउने।", explanationNp: "हाम्रो बिजुली अब भारत र बंगलादेशमा महँगोमा बेचेर देश धनी बन्नेछ।", visualInfo: "⚡ Powering Profits." },
+        { id: 75, category: "energy", timeline: "30 Days", titleEn: "Unified Water Unit", titleNp: "एकीकृत खानेपानी संयन्त्र", descNp: "काठमाडौँमा खानेपानी दिने सबै अफिसलाई एकै ठाउँ ल्याएर काम गर्ने।", explanationNp: "धारामा पानी आउँदैन भने अब एउटै अफिसमा गुनासो गरे पुग्छ।", visualInfo: "💧 Better Water Access." },
+        { id: 76, category: "energy", timeline: "3 Months", titleEn: "Phewa Lake Cleanup", titleNp: "फेवा ताल संरक्षण", descNp: "फेवा ताल मिचेर बनाइएका घर हटाउने र ताललाई सफा गर्ने।", explanationNp: "हाम्रो सुन्दर फेवा ताल अब पहिले जस्तै ठूलो र सफा देखिनेछ।", visualInfo: "🛶 Saving the Serenity." },
+        { id: 77, category: "energy", timeline: "2 Months", titleEn: "Waste Management Bill", titleNp: "फोहोर व्यवस्थापन विधेयक", descNp: "शहरको फोहोरलाई सधैँका लागि सफा राख्न कडा कानुन बनाउने।", explanationNp: "अब फोहोरले शहर गन्हाउने दिन सधैँका लागि अन्त्य हुनेछ।", visualInfo: "🧹 Clean Cities." },
+        { id: 78, category: "energy", timeline: "90 Days", titleEn: "Dormant Bank Recovery", titleNp: "बैंकका पुराना खाता", descNp: "१० वर्षदेखि कसैले नचलाएका बैंक खाताको पैसा सरकारी कोषमा ल्याउने।", explanationNp: "बेवारिसे पैसा अब देश विकासका लागि प्रयोग गरिनेछ।", visualInfo: "🏦 Unclaimed Funds Use." },
+        { id: 79, category: "energy", timeline: "1 Month", titleEn: "Mandatory E-Billing", titleNp: "अनिवार्य ई-बिलिङ", descNp: "सबै ठूला पसलले अब अनलाइनबाटै बिल काट्नु पर्ने र कर तिर्नु पर्ने।", explanationNp: "पसलले कर ठग्न नपाउने र तपाईंले तिरेको पैसा सिधै सरकारमा पुग्नेछ।", visualInfo: "🧾 Digital Receipt." },
+        { id: 80, category: "energy", timeline: "45 Days", titleEn: "Automated Tax", titleNp: "स्वचालित कर प्रशासन", descNp: "कर तिर्न अब अफिस धाइरहनु नपर्ने, सबै अनलाइनबाटै हुने।", explanationNp: "तपाईंको करको हिसाब अब पारदर्शी र सजिलो हुनेछ।", visualInfo: "🖥️ Hassle-Free Tax." },
+        { id: 81, category: "energy", timeline: "60 Days", titleEn: "Fund Consolidation", titleNp: "कोषहरूको एकीकरण", descNp: "धेरै ठाउँमा छरिएर रहेका सरकारी पैसालाई एकै ठाउँ जम्मा गरी काम गर्ने।", explanationNp: "थोरै-थोरै पैसा जथाभाबी खर्च हुनुको साटो ठूलो विकासमा लगाइनेछ।", visualInfo: "💰 Resource Optimization." },
+        { id: 82, category: "energy", timeline: "3 Months", titleEn: "Mining Reform", titleNp: "खानी सुधार", descNp: "खानीका काम नभएका इजाजत खारेज गर्ने र आधुनिक ल्याब बनाउने।", explanationNp: "हाम्रो सुन, पत्थर र कोइला अब वैज्ञानिक तरिकाले उत्खनन गरिनेछ।", visualInfo: "⛏️ National Wealth." },
+        { id: 83, category: "energy", timeline: "Imm.", titleEn: "MRP Monitoring", titleNp: "बजार मूल्य अनुगमन", descNp: "सामानको मूल्य पसलमा लेखिएभन्दा महँगो लिन नपाउने व्यवस्था गर्ने।", explanationNp: "पसलेले मनपरी भाउ लिन पाउने छैनन्, मूल्यमा ठगी रोकिनेछ।", visualInfo: "🏷️ Fair Prices." },
+        { id: 84, category: "energy", timeline: "60 Days", titleEn: "Court Deposit Use", titleNp: "अदालतको धरौटी प्रयोग", descNp: "अदालतमा थन्किएर बसेको ठूलो पैसालाई विकासमा लगानी गर्ने।", explanationNp: "बेकामे बसेको पैसालाई बाटो र पुल बनाउन प्रयोग गरिनेछ।", visualInfo: "⚖️ Financial Potential." },
+        { id: 85, category: "health", timeline: "Imm.", titleEn: "10% Free Hospital Beds", titleNp: "१०% नि:शुल्क बेड", descNp: "सबै सरकारी र निजी अस्पतालमा १०% बेड गरिबका लागि सित्तैमा दिने।", explanationNp: "पैसा नभएर अब कोही पनि अस्पतालको गेटबाट फर्कनु पर्ने छैन।", visualInfo: "🏥 Care for All." },
+        { id: 86, category: "health", timeline: "60 Days", titleEn: "Student Politics Ban", titleNp: "स्कुल/कलेजमा राजनीति निषेध", descNp: "विद्यार्थी संगठनका दलीय संरचना स्कुल र विश्वविद्यालयबाट हटाउने।", explanationNp: "अब स्कुलमा केवल पढाइ मात्रै हुनेछ, झगडा र राजनीति हुने छैन।", visualInfo: "🎓 Focus on Study." },
+        { id: 87, category: "health", timeline: "Strict", titleEn: "Result Calendar", titleNp: "नतिजाको क्यालेन्डर", descNp: "परीक्षा भएको ठ्याक्कै समयमा नतिजा निकाल्ने कडाइ गर्ने।", explanationNp: "नतिजा कुर्नु पर्ने झन्झटले विद्यार्थीको वर्ष खेर जाने छैन।", visualInfo: "📅 Ontime Future." },
+        { id: 88, category: "health", timeline: "Imm.", titleEn: "Citizenship Not for Graduation", titleNp: "स्नातक पढ्न नागरिकता नचाहिने", descNp: "कलेज पढ्न भर्ना हुँदा नागरिकता नै चाहिने पुरानो नियम हटाउने।", explanationNp: "नागरिकता नहुने विद्यार्थीको पनि अब पढ्ने अधिकार सुरक्षित हुनेछ।", visualInfo: "📜 Education Right." },
+        { id: 89, category: "health", timeline: "Next Ses.", titleEn: "No Exams till Grade 5", titleNp: "कक्षा ५ सम्म परीक्षा नहुने", descNp: "साना नानीहरूलाई परीक्षाको टेन्सन नदिन मूल्याङ्कनको नयाँ तरीका ल्याउने।", explanationNp: "साना छोराछोरी अब खुसी भएर खेल्दै र सिक्दै स्कुल जानेछन्।", visualInfo: "🧸 Stress-Free Childhood." },
+        { id: 90, category: "agri", timeline: "30 Days", titleEn: "Agri Support Price", titleNp: "कृषिको न्यूनतम मूल्य", descNp: "धान र गहुँको भाउ नघट्ने गरी सरकारले पहिले नै दर तोक्ने।", explanationNp: "किसानलाई अब व्यापारीले सस्तोमा ठग्न पाउने छैनन्।", visualInfo: "🌾 Farmers' Profit." },
+        { id: 91, category: "agri", timeline: "60 Days", titleEn: "Landless Data Digital", titleNp: "सुकुम्बासी डिजिटल लगत", descNp: "सुकुम्बासीको विवरण ६० दिनमा जम्मा गरी आवासको व्यवस्था गर्ने।", explanationNp: "वास्तविक सुकुम्बासीले अब आफ्नो सानो घर र जमिन पाउनेछन्।", visualInfo: "🏠 Land for Poor." },
+        { id: 92, category: "agri", timeline: "Imm.", titleEn: "Public Land Protection", titleNp: "सरकारी जग्गा फिर्ता", descNp: "मिचिएका सबै सरकारी र बाल संगठनको जग्गा फिर्ता ल्याउने।", explanationNp: "शक्तिशालीले कब्जा गरेको जग्गा अब फेरि जनताको हुनेछ।", visualInfo: "🌳 Public Asset Recovery." },
+        { id: 93, category: "social", timeline: "2 Months", titleEn: "Seized Asset Rules", titleNp: "जफत सम्पत्ति नियम", descNp: "अपराधीबाट जफत गरेको सम्पत्ति कसरी प्रयोग गर्ने भन्ने नियम बनाउने।", explanationNp: "अपराधीको पैसा अब समाजको हितमा प्रयोग गरिनेछ।", visualInfo: "⛓️ Crime Doesn't Pay." },
+        { id: 94, category: "social", timeline: "Imm.", titleEn: "CIB Tech Upgrade", titleNp: "सीआईबी प्रविधि", descNp: "प्रहरीको सीआईबीलाई १ करोड बजेट सिधै दिएर आधुनिक बनाउने।", explanationNp: "डिजिटल अपराध गर्नेहरूलाई प्रहरीले अब तुरुन्तै समात्ने शक्ति पाउनेछ।", visualInfo: "👮 Tech-Savvy Police." },
+        { id: 95, category: "social", timeline: "7 Days", titleEn: "Mid-East Crisis Impact", titleNp: "मध्यपूर्व संकट अध्ययन", descNp: "खाडी मुलुकको युद्धले नेपालको तेल र रोजगारमा पर्ने असर अध्ययन गर्ने।", explanationNp: "विदेशमा रहेका नेपाली र यहाँको महँगीलाई जोगाउन सरकार तयार हुनेछ।", visualInfo: "🌍 Crisis Management." },
+        { id: 96, category: "social", timeline: "Imm.", titleEn: "Held Vehicle Auction", titleNp: "भन्सारका पुराना गाडी", descNp: "भन्सारमा कुहिएर बसेका गाडीहरू सस्तोमा बेच्ने वा मिलाउने।", explanationNp: "अब भन्सारमा गाडी सड्ने छैनन्, राज्यले यसबाट आम्दानी गर्नेछ।", visualInfo: "🚗 Resource Reclaimer." },
+        { id: 97, category: "social", timeline: "100 Days", titleEn: "Blue Bus for Women", titleNp: "महिलाका लागि ब्लु बस", descNp: "प्रमुख शहरहरूमा महिलाका लागि छुट्टै निःशुल्क बस सञ्चालन गर्ने।", explanationNp: "तपाईंको यात्रा अब अझै सुरक्षित र निःशुल्क हुनेछ।", visualInfo: "🚌 Safe Travel." },
+        { id: 98, category: "social", timeline: "30 Days", titleEn: "SOS Button in Apps", titleNp: "सुरक्षाका लागि SOS बटन", descNp: "ट्याक्सी र बाइक एपमा खतरा भए प्रहरीलाई खबर गर्ने बटन राख्ने।", explanationNp: "यात्रा गर्दा गाह्रो भए सिधै प्रहरीलाई खबर गर्न मिल्नेछ।", visualInfo: "🆘 Emergency Help." },
+        { id: 99, category: "social", timeline: "100 Days", titleEn: "Cooperative Refund", titleNp: "सहकारी बचत फिर्ता", descNp: "ठगिएका सहकारीका साना बचतकर्ताको पैसा १०० दिनभित्र फिर्ता सुरु गर्ने।", explanationNp: "सहकारीमा फसेको तपाईंको पसिनाको कमाइ अब फिर्ता पाउने बाटो खुल्यो।", visualInfo: "💰 Money Recovery." },
+        { id: 100, category: "social", timeline: "Final", titleEn: "Unified Result", titleNp: "एकीकृत नतिजा", descNp: "सबै सरकारी निकाय मिलेर यो १०० बुँदे काम सफल बनाउने प्रतिबद्धता।", explanationNp: "हामी सबै मिलेर एउटा नयाँ र समृद्ध नेपाल निर्माण गर्नेछौँ।", visualInfo: "🇳🇵 Unified Hope." }
+    ];
+
+    const pointsGrid = document.getElementById('points-grid');
+    const searchInput = document.getElementById('search-input');
+    const filterTags = document.getElementById('filter-tags');
+    const modal = document.getElementById('modal-overlay');
+    const modalBody = document.getElementById('modal-body');
+    const closeModal = document.getElementById('close-modal');
+
+    function renderPoints(filter = 'all', search = '') {
+        pointsGrid.innerHTML = '';
+        const filtered = pointsData.filter(p => {
+            const matchesFilter = filter === 'all' || p.category === filter;
+            const matchesSearch = p.titleEn.toLowerCase().includes(search.toLowerCase()) || 
+                                 p.titleNp.includes(search) || 
+                                 p.id.toString() === search;
+            return matchesFilter && matchesSearch;
+        });
+
+        filtered.forEach((p, index) => {
+            const card = document.createElement('div');
+            card.className = 'point-card fade-in';
+            card.style.animationDelay = `${index * 0.02}s`;
+            const isUrgent = p.timeline.includes('7') || p.timeline.includes('Imm') || p.timeline.includes('15');
+            card.innerHTML = `
+                <div class="point-number">#${p.id}</div>
+                <div class="point-header">
+                    <span class="category-badge">${p.category}</span>
+                    <span class="timeline-badge ${isUrgent ? 'timeline-urgent' : ''}">${p.timeline}</span>
+                </div>
+                <div class="point-content">
+                    <h3>${p.titleNp}</h3>
+                    <h3 style="opacity:0.7; font-size: 1rem;">${p.titleEn}</h3>
+                    <p>${p.explanationNp}</p>
+                </div>
+            `;
+            card.onclick = () => showDetail(p);
+            pointsGrid.appendChild(card);
+        });
+    }
+
+    function showDetail(p) {
+        modalBody.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 2px solid var(--gov-red); padding-bottom: 15px; margin-bottom: 25px;">
+                <div class="category-badge" style="font-size: 1rem;">${p.category} | Timeline: ${p.timeline}</div>
+                <div style="font-weight: 800; color: var(--gov-blue); font-size: 1.2rem;">कार्यसूची #${p.id}</div>
+            </div>
+            
+            <h1 style="font-size: 1.8rem; margin-bottom: 25px; color: var(--gov-blue); line-height: 1.4;">${p.titleNp}<br><span style="font-size: 1.4rem; opacity: 0.7;">${p.titleEn}</span></h1>
+            
+            <div class="detail-section">
+                <span class="detail-label">The Official Decision / मूल निर्णय 🏛️</span>
+                <p class="detail-text" style="font-weight: 500;">${p.descNp}</p>
+            </div>
+            
+            <div class="detail-section" style="background: #f8fafc; padding: 25px; border-left: 5px solid var(--gov-blue); border-radius: 4px;">
+                <span class="detail-label">Simple Explanation / सरल व्याख्या 💡</span>
+                <p class="detail-text" style="font-weight: 700; color: var(--gov-blue); margin-bottom: 0;">${p.explanationNp}</p>
+            </div>
+            
+            <div class="visual-aid" style="border: 1px solid var(--gov-blue); background: #f0f9ff;">
+                <h4 style="color: var(--gov-blue); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 10px;">Visual Insight / दृश्य अन्तर्दृष्टि 🖼️</h4>
+                <div style="font-size: 1.1rem; display: flex; align-items: center; gap: 15px; color: var(--gov-blue); font-weight: 600;">
+                    ${p.visualInfo}
+                </div>
+            </div>
+        `;
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    closeModal.onclick = () => { modal.style.display = 'none'; document.body.style.overflow = 'auto'; };
+    window.onclick = (e) => { if (e.target === modal) closeModal.onclick(); };
+    searchInput.oninput = (e) => {
+        const activeFilter = document.querySelector('.filter-tag.active').dataset.category;
+        renderPoints(activeFilter, e.target.value);
+    };
+    filterTags.onclick = (e) => {
+        if (e.target.classList.contains('filter-tag')) {
+            document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+            e.target.classList.add('active');
+            renderPoints(e.target.dataset.category, searchInput.value);
+        }
+    };
+
+    renderPoints();
+</script>
+</body>
+</html>
